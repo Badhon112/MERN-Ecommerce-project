@@ -44,6 +44,7 @@ const registerController = async (req, res) => {
       password: hashedpassword,
       phone,
       address,
+      role
     });
     user.save();
     res.status(201).send({
@@ -79,6 +80,7 @@ const loginController = async (req, res) => {
         message: "Email is not resistor",
       });
     }
+    //Check Password
     const match = await comparePassword(password, user.password);
     if (!match) {
       return res.status(200).send({
@@ -90,6 +92,7 @@ const loginController = async (req, res) => {
     const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+    //send data
     res.status(200).send({
       success: true,
       message: "Login successfully",
@@ -111,4 +114,12 @@ const loginController = async (req, res) => {
   }
 };
 
-export { registerController, loginController };
+//Text Controller
+const textController = async (req, res) => {
+  return res.status(200).send({
+    success: true,
+    message: "Protected Route",
+  });
+};
+
+export { registerController, loginController, textController };
