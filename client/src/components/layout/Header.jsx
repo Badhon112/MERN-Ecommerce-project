@@ -5,7 +5,7 @@ export default function Header() {
   const [navbar, setNavbar] = useState("");
   window.addEventListener("mouseup", () => {});
   return (
-    <nav className="bg-white w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 ">
+    <nav className="bg-white w-full z-20 top-0 start-0 border-b border-gray-200  ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link
           to={"/"}
