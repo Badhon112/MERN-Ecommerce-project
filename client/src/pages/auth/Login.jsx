@@ -3,11 +3,12 @@ import Layout from "../../components/layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from 'axios'
+import { useAuth } from "../../context/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [auth,setAuth]=useAuth()
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +19,12 @@ export default function Login() {
       });
       if (res.data.success) {
         toast(res.data.message);
+        setAuth({
+          ...auth,
+          user:res.data.user,
+          token:res.data.token
+        })
+        localStorage.setItem('auth',JSON.stringify(res.data))
         navigate("/");
       } else {
         toast.error(res.data.message);

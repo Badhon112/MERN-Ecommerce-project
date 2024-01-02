@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import  toast  from "react-hot-toast";
 
 export default function Header() {
-  const [navbar, setNavbar] = useState("");
-  window.addEventListener("mouseup", () => {});
+  const [auth, setAuth] = useAuth();
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,token:''
+    });
+    localStorage.removeItem('token')
+    toast.success("LogOut Succefull")
+  };
   return (
     <nav className="bg-white w-full z-20 top-0 start-0 border-b border-gray-200  ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -28,18 +37,34 @@ export default function Header() {
           >
             Category
           </Link>
-          <Link
-            to={"/register"}
-            className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
-          >
-            Register
-          </Link>
-          <Link
-            to={"/login"}
-            className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
-          >
-            Login
-          </Link>
+
+          {!auth.user ? (
+            <>
+              <Link
+                to={"/register"}
+                className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
+              >
+                Register
+              </Link>
+              <Link
+                to={"/login"}
+                className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
+              >
+                Login
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to={"/login"}
+                onClick={handleLogout}
+                className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
+              >
+                LogOut
+              </Link>
+            </>
+          )}
+
           <Link
             to={"/cart"}
             className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
