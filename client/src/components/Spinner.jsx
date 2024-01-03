@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function Spinner() {
+export default function Spinner({path='login'}) {
   const [count, setCount] = useState(5);
   const navigate = useNavigate();
   useEffect(() => {
@@ -9,9 +9,9 @@ export default function Spinner() {
       setCount((preValue) => --preValue);
     }, 1000);
     count === 0 &&
-      navigate("/login");
+      navigate(`/${path}`);
     return () => clearInterval(interval);
-  }, [count, navigate]);
+  }, [count, navigate,path]);
   return (
     <button
       disabled

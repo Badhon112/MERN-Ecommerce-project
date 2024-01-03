@@ -5,7 +5,7 @@ import JWT from "jsonwebtoken";
 //For Rergister
 const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address, role } = req.body;
+    const { name, email, password, phone, address, answer, role } = req.body;
     if (!name) {
       return res.send({ message: "Name is Required" });
     }
@@ -44,6 +44,7 @@ const registerController = async (req, res) => {
       password: hashedpassword,
       phone,
       address,
+      answer,
       role,
     });
     user.save();
@@ -101,6 +102,7 @@ const loginController = async (req, res) => {
         email: user.email,
         phone: user.phone,
         address: user.address,
+        role: user.role,
       },
       token,
     });
@@ -114,6 +116,45 @@ const loginController = async (req, res) => {
   }
 };
 
+//For Forget Password
+const forgetPasswordController = async (req, res) => {
+  try {
+    const { email, answer, newpassword } = req.body;
+    if (!email) {
+      res.status(400).send({ message: "Email is require" });
+    }
+    if (!answer) {
+      res.status(400).send({ message: "Answer is require" });
+    }
+    if (!newpassword) {
+      res.status(400).send({ message: "New Password is require" });
+    }
+
+    //Check
+    const user = await userModel.findOne({ email, answer });
+    //Validation
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "Wrong Email or Answer",
+      });
+    }
+    const hashed = await hashPassword(newpassword);
+    await userModel.findByIdAndUpdate(user._id, { password: hashed });
+    res.status(200).send({
+      success: true,
+      message: "Password Reset Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Something went wrong",
+      error,
+    });
+  }
+};
+
 //Text Controller
 const textController = async (req, res) => {
   return res.status(200).send({
@@ -122,4 +163,9 @@ const textController = async (req, res) => {
   });
 };
 
-export { registerController, loginController, textController };
+export {
+  registerController,
+  loginController,
+  textController,
+  forgetPasswordController,
+};

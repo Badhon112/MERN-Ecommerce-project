@@ -10,13 +10,14 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [answer, setAnswer] = useState("")
   const navigate=useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
         `http://localhost:8080/api/v1/auth/register`,
-        { name, email, password, phone, address }
+        { name, email, password, phone, address,answer }
       );
       if(res.data.success){
         toast(res.data.message)
@@ -46,7 +47,7 @@ export default function Register() {
                 onSubmit={handleSubmit}
               >
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
+                  <label className="block text-sm font-medium text-gray-900 dark:text-gray-900">
                     Your Name
                   </label>
                   <input
@@ -61,7 +62,7 @@ export default function Register() {
                   />
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
+                  <label className="block text-sm font-medium text-gray-900 dark:text-gray-900">
                     Your Email
                   </label>
                   <input
@@ -91,7 +92,7 @@ export default function Register() {
                   />
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
+                  <label className="block  text-sm font-medium text-gray-900 dark:text-gray-900">
                     Phone
                   </label>
                   <input
@@ -106,7 +107,7 @@ export default function Register() {
                   />
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
+                  <label className="block text-sm font-medium text-gray-900 dark:text-gray-900">
                     Address
                   </label>
                   <input
@@ -118,6 +119,21 @@ export default function Register() {
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required={true}
                     onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-gray-900">
+                    What is you best game ?
+                  </label>
+                  <input
+                    type="text"
+                    name="answer"
+                    id="answer"
+                    value={answer}
+                    placeholder="Enter Answer"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required={true}
+                    onChange={(e) => setAnswer(e.target.value)}
                   />
                 </div>
 

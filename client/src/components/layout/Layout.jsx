@@ -20,7 +20,7 @@ export default function Layout({
         <title>{title}</title>
       </Helmet>
       <Header />
-      <main className="min-h-[80vh]">
+      <main className="min-h-screen">
         <Toaster/>
         {children}
       </main>

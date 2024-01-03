@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
-import  toast  from "react-hot-toast";
-
+import toast from "react-hot-toast";
 export default function Header() {
   const [auth, setAuth] = useAuth();
   const handleLogout = () => {
     setAuth({
       ...auth,
-      user: null,token:''
+      user: null,
+      token: "",
     });
-    localStorage.removeItem('token')
-    toast.success("LogOut Succefull")
+    localStorage.removeItem("token");
+    toast.success("LogOut Succefull");
   };
   return (
     <nav className="bg-white w-full z-20 top-0 start-0 border-b border-gray-200  ">
@@ -37,20 +37,25 @@ export default function Header() {
           >
             Category
           </Link>
-
+          <Link
+            to={"/cart"}
+            className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
+          >
+            Cart (0)
+          </Link>
           {!auth.user ? (
             <>
-              <Link
-                to={"/register"}
-                className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
-              >
-                Register
-              </Link>
               <Link
                 to={"/login"}
                 className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
               >
                 Login
+              </Link>
+              <Link
+                to={"/register"}
+                className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
+              >
+                Register
               </Link>
             </>
           ) : (
@@ -62,15 +67,20 @@ export default function Header() {
               >
                 LogOut
               </Link>
+              <Link
+                to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
+                className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
+              >
+                Dashboard
+              </Link>
+              <Link
+                to={"/profile"}
+                className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
+              >
+                {auth?.user?.name}
+              </Link>
             </>
           )}
-
-          <Link
-            to={"/cart"}
-            className="text-black focus:ring-4 focus:outline-none  font-bold  rounded-lg text-lg px-4 py-2 text-center "
-          >
-            Cart (0)
-          </Link>
         </div>
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
