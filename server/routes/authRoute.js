@@ -15,4 +15,9 @@ router.post("/login",loginController)
 //Text Routers
 router.get('/text', requireSignIn,isAdmin,textController)
 
+//Protected router
+router.get("/user-auth",requireSignIn,(req,res)=>{
+    res.status(200).send({ok:true})
+})
+
 export default router

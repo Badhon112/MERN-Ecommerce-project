@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from 'axios'
 import { useAuth } from "../../context/auth";
@@ -10,6 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [auth,setAuth]=useAuth()
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -88,7 +89,7 @@ export default function Login() {
                 <p className="text-sm font-light text-gray-900 dark:text-gray-900">
                   Dont,t have an account?{" "}
                   <Link
-                    to="/"
+                    to="/register"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Register account
